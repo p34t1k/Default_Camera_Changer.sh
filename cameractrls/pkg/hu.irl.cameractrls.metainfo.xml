@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+    <id>hu.irl.cameractrls</id>
+    <launchable type="desktop-id">hu.irl.cameractrls.desktop</launchable>
+    <name>Cameractrls</name>
+    <developer id="hu.irl.cameractrls">
+        <name translatable="no">Gergo Koteles</name>
+    </developer>
+    <summary>Camera controls for Linux</summary>
+    <description>
+        <p>
+            It's a standalone Python CLI and GUI (GTK3, GTK4) and camera Viewer (SDL) to set the camera controls in Linux.
+            It can set the V4L2 controls and it is extendable with the non standard controls.
+            Currently it has a Logitech extension (LED mode, LED frequency, BRIO FoV, Relative Pan/Tilt, PTZ presets), Kiyo Pro extension (HDR, HDR mode, FoV, AF mode, Save), Dell UltraSharp WB7022 extension, Preset extension (Save and restore controls), Control Restore Daemon (to restore presets at device connection).
+        </p>
+    </description>
+    <metadata_license>FSFAP</metadata_license>
+    <project_license>LGPL-3.0-or-later</project_license>
+    <supports>
+        <control>pointing</control>
+        <control>keyboard</control>
+        <control>touch</control>
+        <control>tablet</control>
+        <control>gamepad</control>
+    </supports>
+    <recommends>
+        <display_length compare="ge">550</display_length>
+    </recommends>
+    <content_rating type="oars-1.1"/>
+    <url type="homepage">https://github.com/soyersoyer/cameractrls</url>
+    <url type="bugtracker">https://github.com/soyersoyer/cameractrls/issues</url>
+    <screenshots>
+        <screenshot type="default">
+            <image>https://github.com/soyersoyer/cameractrls/raw/main/screenshots/gui_screen_gtk_1.png</image>
+            <caption>Basic page</caption>
+        </screenshot>
+    </screenshots>
+    <releases>
+        <release version="0.6.7" date="2024-09-02">
+            <description>
+                <ul>
+                    <li>Dell UltraSharp WB7022 Extension (thx Sensape)</li>
+                    <li>Add SpinButtons next to Scales</li>
+                    <li>Allow PageUp/PageDown buttons to work with scales and spin buttons</li>
+                    <li>Use Alt+n shortcuts to switch between pages</li>
+                    <li>Remove Alt+n shortcuts for Logitech PTZ presets</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.6.6" date="2024-06-11">
+            <description>
+                <ul>
+                    <li>Fixes typo, which prevents from saving any config (thx morbno)</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.6.5" date="2024-06-04">
+            <description>
+                <ul>
+                    <li>Gray out the readonly controls (thx Daniel Schaefer @ Framework)</li>
+                    <li>Fix GKT4 scale layout for version 4.14.2+</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.6.4" date="2024-05-28">
+            <description>
+                <ul>
+                    <li>Fix config location when XDG_CONFIG_DIR is set (thx Daniel Fox)</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.6.3" date="2024-04-11">
+            <description>
+                <ul>
+                    <li>Added scrollbar to the control panel</li>
+                    <li>Cameractrlsd can start even if there is no /dev/v4l directory</li>
+                    <li>Preset save writes the config file based on v4l ID</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.6.2" date="2024-04-07">
+            <description>
+                <ul>
+                    <li>Add tooltips to preset controls</li>
+                    <li>Sort resolutions in descendng order</li>
+                    <li>Use only 1 screenshot in metainfo to make the Flatpak image less bloated</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.6.1" date="2024-04-03">
+            <description>
+                <ul>
+                    <li>Set dark mode based on color-scheme</li>
+                    <li>Enable DesktopPortal launcer for snap as well</li>
+                    <li>Check if systemctl enable is successfull</li>
+                    <li>Set cameractrlsd loglevel to INFO</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.6.0" date="2024-04-01">
+            <description>
+                <ul>
+                    <li>Control Presets</li>
+                    <li>Cameractrlsd, a deamon which restores the controls at device connection</li>
+                    <li>Starter for Cameractrlsd with SystemD and DesktopPortal</li>
+                    <li>MX Brio FoV support (thx wanderboessenkool)</li>
+                    <li>PTZ control keys in cameraview</li>
+                    <li>use GPLv3 License</li>
+                    <li>Various camera opening fixes</li>
+                    <li>Better relative MIDI control support</li>
+                    <li>Added Zoom Continuous to zeroers to work</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.15" date="2024-02-17">
+            <description>
+                <ul>
+                    <li>Do not use PEP-701 as older pythons do not support it</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.14" date="2024-02-17">
+            <description>
+                <ul>
+                    <li>3DConnexion SpaceMouse support to control PTZ cameras</li>
+                    <li>Game Controllers (PS DualSense/Xbox/etc) support to control PTZ cameras</li>
+                    <li>MIDI Controllers (MPK Mini or any configurable) support to control PTZ cameras</li>
+                    <li>Use Page Up/Page Down for Zoom also (PTZ)</li>
+                    <li>Keyboard controls for Absolute PTZ</li>
+                    <li>Alt+PresetNum shortcuts for PTZ presets</li>
+                    <li>Tooltips for headerbar icons</li>
+                    <li>Replaced Hamburger menu with About icon</li>
+                    <li>Fix Ctrl detection in PTZ controls</li>
+                    <li>Eliminating GLib warnings on app closing</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.13" date="2023-12-22">
+            <description>
+                <ul>
+                    <li>Logitech PTZ presets</li>
+                    <li>Better keyboard control for PTZ</li>
+                    <li>Bigger steps for Zoom with Ctrl+Dir, Page Up/Page Down</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.12" date="2023-12-08">
+            <description>
+                <ul>
+                    <li>Brio 505 FoV support (thx squiddity)</li>
+                    <li>fixed 'list more' button size in the GTK4 app</li>
+                    <li>fixed release events of scale widget in the GTK4 app</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.11" date="2023-10-13">
+            <description>
+                <ul>
+                    <li>Handle invalid menu control value</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.10" date="2023-08-03">
+            <description>
+                <ul>
+                    <li>Listen for pixelformat, resolution, FPS changes from other processes</li>
+                    <li>Show warnings about invalid FPS values</li>
+                    <li>Preview calls S_PARM to make uninitialized cameras work</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.9" date="2023-07-07">
+            <description>
+                <ul>
+                    <li>Added V4L2_CID_HDR_SENSOR_MODE, V4L2_CID_IMAGE_[SOURCE|PROC]_CLASS descriptions</li>
+                    <li>Fixed shortcuts in cameraview</li>
+                    <li>Fixed float FPS handling</li>
+                    <li>Adjust the window size based on rotation</li>
+                    <li>preview calls VIDIOC_S_FMT only for Kiyo Pro (it doesn't work without)</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.8" date="2023-06-26">
+            <description>
+                <ul>
+                    <li>Colormaps for all pixel formats (some thermal cameras use YUYV for thermal imaging)</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.7" date="2023-06-24">
+            <description>
+                <ul>
+                    <li>Fixed rotation in preview</li>
+                    <li>Clamp percent control values for fewer warnings when using presets</li>
+                    <li>Use the GTK bundled view-more icon instead of camera-switch</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.6" date="2023-06-15">
+            <description>
+                <ul>
+                    <li>Fixed ctrl+q quit by closing the camera before</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.5" date="2023-06-10">
+            <description>
+                <ul>
+                    <li>Color presets</li>
+                    <li>Listen for controls changes from other processes</li>
+                    <li>'default' or percent values can also be set</li>
+                    <li>Improved error reporting</li>
+                    <li>Exposure time now in µs in the GTK GUIs</li>
+                    <li>Exposure time, Gain scales has dark-to-light background</li>
+                    <li>Removed header buttons border</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.4" date="2023-05-21">
+            <description>
+                <ul>
+                    <li>Limit the initial size of the preview window to control window so it can be placed next to each other</li>
+                    <li>Flatpak version now uses Wayland (bundled SDL2, libdecor)</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.3" date="2023-05-21">
+            <description>
+                <ul>
+                    <li>Display warnings on the GUIs as well</li>
+                    <li>Fixed device listbox margin in GTK app</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.2" date="2023-05-20">
+            <description>
+                <ul>
+                    <li>Two more colormaps</li>
+                    <li>Capture - Info category with camera informations</li>
+                    <li>Show devices by name, not by the long v4l path</li>
+                    <li>Move device combobox to headerbar</li>
+                    <li>Add refresh button to headerbar</li>
+                    <li>Limit the size of the preview to fit next to the window</li>
+                    <li>Redesigned Zero camera page with snap instructions</li>
+                </ul>
+            </description>
+        </release>        
+        <release version="0.5.1" date="2023-05-17">
+            <description>
+                <ul>
+                    <li>New Icon (thx Jorge Toledo eldelacajita)</li>
+                    <li>Rotate, mirror the preview image</li>
+                    <li>Colormaps (inferno, ironblack) for Thermal/ToF camera GREY previews</li>
+                    <li>RGB565 format support</li>
+                    <li>Use edit-undo-symbolic icon instead of ⟳ in default buttons</li>
+                    <li>Various GTK/GTK4 fixes</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.5.0" date="2023-04-29">
+            <description>
+                <ul>
+                    <li>Brio 501 FoV support (thx Monkatraz)</li>
+                    <li>Colorized White Balance scale</li>
+                    <li>Simpler looking scales</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.4.14" date="2023-03-05">
+            <description>
+                <ul>
+                    <li>Brio 4K Stream Edition FoV support (thx chrishoage)</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.4.13" date="2023-03-02">
+            <description>
+                <ul>
+                    <li>Brio 500 FoV support (thx crabmanX)</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.4.12" date="2022-12-04">
+            <description>
+                <ul>
+                    <li>Improved error handling and logging</li>
+                    <li>The icon has been given some bloom to make it visible even on a dark background (thx nekohayo for the suggestion)</li>
+                    <li>Fixed Dynex 1.3MP Webcam preview and fps control (thx dln949 for testing)</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.4.11" date="2022-10-19">
+            <description>
+                <ul>
+                    <li>Pan/Tilt relative and reset controls for some Logitech PTZ cameras (like bcc950)</li>
+                    <li>LED and focus controls for some old Logitech cameras (like QuickCam Pro 9000)</li>
+                    <li>V4L2 buttons</li>
+                    <li>Controls also work with keyboard</li>
+                    <li>Pan/Tilt speed controls stop when the key or button released</li>
+                    <li>Highlight focused controls in the TK app</li>
+                    <li>Gray out the inactive controls</li>
+                    <li>Quit with Primary+q</li>
+                    <li>New compression page with the Codec and JPEG categories</li>
+                    <li>Fullscreen with double-click in the cameraview</li>
+                    <li>Support YVYU, UYVY, NV21, YV12, RGB24, BGR24, RX24 formats in the cameraview</li>
+                    <li>Limit the combobox width in the GTK app</li>
+                    <li>Controls fill the width in the GTK app</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.4.10" date="2022-10-07">
+            <description>
+                <ul>
+                    <li>Color Balance category</li>
+                    <li>Tooltips for JPEG controls</li>
+                    <li>Support cameras with YU12 format</li>
+                    <li>Support IR cameras with GREY format</li>
+                    <li>Advanced/Color Effects moved to Color/Effects</li>
+                    <li>Basic/Crop/Privacy moved to Advanced/Privacy</li>
+                    <li>Merge Compression page into Advanced page</li>
+                    <li>Retain aspect ratio in the cameraview's fullscreen mode</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.4.9" date="2022-08-20">
+            <description>
+                <ul>
+                    <li>Control tooltips</li>
+                    <li>Reordered pages</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.4.8" date="2022-08-19">
+            <description>
+                <ul>
+                    <li>Crop, Image, Exposure pages for better navigation</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.4.7" date="2022-08-19">
+            <description>
+                <ul>
+                    <li>Add Logitech BRIO FoV control</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.4.6" date="2022-07-01">
+            <description>
+                <ul>
+                    <li>Cameraview: use esc to exit</li>
+                    <li>GTK, TK: close all windows at exit</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.4.5" date="2022-06-30"/>
+        <release version="0.4.4" date="2022-06-29"/>
+        <release version="0.4.3" date="2022-06-23"/>
+    </releases>
+</component>
