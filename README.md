@@ -1,119 +1,101 @@
-Default Camera Changer
 
-Default Camera Changer is a Bash script for Kali Linux (and other Debian-based systems) that allows you to list all connected cameras (USB, integrated, virtual, OBS/DroidCam, etc.) and easily toggle the default camera. This ensures that applications like browsers, Cheese, OBS, Zoom, or any other camera-using software automatically use your selected camera, even if they do not provide an option to change it.
+Default Camera Changer
+A Bash script for Kali Linux and Debian-based systems that allows you to easily manage and switch between connected cameras, making any camera the system default (/dev/video0).
 
 Features
+Lists all connected cameras with friendly names and types (USB/Virtual)
 
-Lists all connected cameras with friendly names and type (USB / Virtual).
+Shows the current default camera
 
-Shows which camera is currently set as the system default (/dev/video0).
+Allows switching the default camera to any connected camera
 
-Allows switching the default camera to any connected camera.
+Maintains a backup of the original default camera for easy restoration
 
-Keeps a backup of the original default camera for easy restoration.
+Handles integrated, USB, and virtual cameras (OBS, DroidCam, etc.)
 
-Handles integrated, USB, and virtual cameras like DroidCam or OBS Virtual Camera.
-
-Can be run from terminal or integrated into KDE application launcher.
+Terminal-based interface with simple menu options
 
 Requirements
+Kali Linux 2025 or other Debian-based distributions
 
-Kali Linux 2025 or other Debian-based distributions.
+v4l-utils package (for v4l2-ctl command)
 
-v4l-utils package (v4l2-ctl) for camera detection.
-
-sudo privileges for modifying /dev/video0 symlink.
-
-Install dependencies:
-
-sudo apt update
-sudo apt install -y v4l-utils
+sudo privileges for modifying device symlinks
 
 Installation
+Install dependencies:
 
-Clone the repository:
-
-git clone https://github.com/yourusername/default-camera-changer.git
-
-
-Navigate to the script folder:
-
-cd default-camera-changer
-
-
+bash
+sudo apt update && sudo apt install -y v4l-utils
 Make the script executable:
 
+bash
 chmod +x Default_camera_changer.sh
-
 Usage
+Run the script:
 
-Run the script from terminal:
-
+bash
 ./Default_camera_changer.sh
+You'll see:
 
+A list of all connected cameras with device paths and types
 
-You will see:
+The current default camera
 
-A list of all connected cameras with their device paths and type.
+Menu options to change or restore the default camera
 
-The current default camera (/dev/video0).
+Menu Options
+Change default camera - Select from detected cameras
 
-Options to:
+Restore original default camera - Revert to the original setup
 
-Change default camera
+Exit - Quit the program
 
-Restore original default camera
+Integration with KDE Menu
+Create a desktop file at ~/.local/share/applications/default-camera-changer.desktop:
 
-Exit
-
-Follow the prompts to switch the default camera. After switching, apps will use the new camera as default.
-
-💡 Tip: Some apps or browsers may cache the old camera. Restart them after changing the default.
-
-Optional: Integrate with KDE Menu
-
-Create a .desktop file in ~/.local/share/applications/default-camera-changer.desktop:
-
+ini
 [Desktop Entry]
 Name=Default Camera Changer
 Comment=Switch default camera for apps and browsers
-Exec=/full/path/to/Default_camera_changer.sh
+Exec=/path/to/Default_camera_changer.sh
 Icon=webcam
 Terminal=true
 Type=Application
 Categories=Utility;Settings;
 StartupNotify=true
+Refresh the application menu:
 
-
-Refresh KDE launcher:
-
+bash
 kbuildsycoca5
-
-
-Search for Default Camera Changer in the application menu and run it.
-
-Restore Original Default Camera
-
-The script automatically creates a backup of the original /dev/video0 as /dev/video0.bak. To restore:
-
-Run the script.
-
-Choose Restore original default camera from the menu.
+How It Works
+The script creates a symbolic link from your selected camera device to /dev/video0, which is the default camera path that most applications use. It automatically backs up the original /dev/video0 device as /dev/video0.bak for easy restoration.
 
 Notes
+Some applications may need to be restarted to recognize the new default camera
 
-The script works by creating a symlink from the selected camera to /dev/video0.
+Requires sudo privileges to modify device links
 
-Only one entry per physical/virtual camera is shown, preventing duplicate listings.
+Only shows one entry per camera type to avoid duplicates
 
-Requires sudo because modifying /dev/video0 needs root permissions.
+Virtual cameras (OBS, DroidCam) are properly detected and handled
+
+Troubleshooting
+If you encounter issues:
+
+Ensure v4l-utils is installed
+
+Check that your cameras are properly connected and detected by the system
+
+Verify you have sudo privileges
 
 Contributing
+Contributions are welcome! Potential improvements include:
 
-Contributions are welcome! You can improve this project by:
+Adding GUI support (kdialog, zenity)
 
-Adding GUI support using kdialog or other tools.
+Enhanced virtual camera detection
 
-Automatically detecting OBS/DroidCam virtual cameras with more descriptive names.
+Color-coded menu interface
 
-Adding color-coded or more user-friendly menus.
+Automatic application restart after changes
