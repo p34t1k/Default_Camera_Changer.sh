@@ -1,8 +1,9 @@
 #!/bin/bash
 # Default_camera_changer - Smart version (single entry per camera)
 # Kali Linux 2025 / Debian-based
+# Improved version with better UX and error handling
 
-set -e
+set -euo pipefail
 
 # Check dependencies
 if ! command -v v4l2-ctl &>/dev/null; then
@@ -11,6 +12,7 @@ if ! command -v v4l2-ctl &>/dev/null; then
 fi
 
 BACKUP="/dev/video0.bak"
+DEFAULT="/dev/video0"
 
 echo "===== Default Camera Changer ====="
 echo
@@ -18,6 +20,7 @@ echo
 # Detect video devices and group duplicates
 declare -A CAMERAS
 for DEV in /dev/video*; do
+    [ ! -e "$DEV" ] && continue
     # Get card name
     NAME=$(v4l2-ctl -d "$DEV" --info 2>/dev/null | grep "Card type" | sed 's/Card type: //')
     [ -z "$NAME" ] && NAME="Unknown / Virtual"
@@ -30,10 +33,16 @@ for DEV in /dev/video*; do
     fi
 
     # Only add first occurrence of each card name
-    if [ -z "${CAMERAS[$NAME]}" ]; then
+    if [ -z "${CAMERAS[$NAME]+x}" ]; then
         CAMERAS["$NAME"]="$DEV|$TYPE"
     fi
 done
+
+# Ensure at least one camera found
+if [ "${#CAMERAS[@]}" -eq 0 ]; then
+    echo "No cameras detected!"
+    exit 1
+fi
 
 # List cameras
 INDEX=0
@@ -49,11 +58,16 @@ for NAME in "${!CAMERAS[@]}"; do
 done
 
 # Show current default camera
-DEFAULT="/dev/video0"
 if [ -L "$DEFAULT" ]; then
     CURRENT=$(readlink -f "$DEFAULT")
     echo
     echo "Current default camera: $DEFAULT -> $CURRENT"
+elif [ -e "$DEFAULT" ]; then
+    echo
+    echo "Current default camera: $DEFAULT"
+else
+    echo
+    echo "No /dev/video0 found."
 fi
 
 echo
@@ -61,12 +75,12 @@ echo "Options:"
 echo "0) Change default camera"
 echo "1) Restore original default camera"
 echo "2) Exit"
-read -p "Enter choice: " OPTION
+read -rp "Enter choice: " OPTION
 
 case $OPTION in
     0)
-        read -p "Enter the number of the camera you want to set as default: " CHOICE
-        if ! [[ "$CHOICE" =~ ^[0-9]+$ ]] || [ -z "${INDEX_MAP[$CHOICE]}" ]; then
+        read -rp "Enter the number of the camera you want to set as default: " CHOICE
+        if ! [[ "$CHOICE" =~ ^[0-9]+$ ]] || [ -z "${INDEX_MAP[$CHOICE]+x}" ]; then
             echo "Invalid choice!"
             exit 1
         fi
@@ -75,28 +89,26 @@ case $OPTION in
         echo "You selected $SELECTED"
 
         # Backup current default camera if not already backed up
-        if [ ! -e "$BACKUP" ] && [ -e "/dev/video0" ]; then
-            sudo mv /dev/video0 "$BACKUP"
+        if [ ! -e "$BACKUP" ] && [ -e "$DEFAULT" ]; then
+            sudo mv "$DEFAULT" "$BACKUP"
         fi
 
-        # Remove existing /dev/video0
-        if [ -e "/dev/video0" ]; then
-            sudo rm /dev/video0
+        # Remove existing /dev/video0 if exists
+        if [ -e "$DEFAULT" ] || [ -L "$DEFAULT" ]; then
+            sudo rm -f "$DEFAULT"
         fi
 
         # Create symlink
-        sudo ln -s "$SELECTED" /dev/video0
-        echo "Default camera changed successfully to $SELECTED!"
+        sudo ln -s "$SELECTED" "$DEFAULT"
+        echo "✅ Default camera changed successfully to $SELECTED!"
         ;;
     1)
         if [ -e "$BACKUP" ]; then
-            if [ -e "/dev/video0" ]; then
-                sudo rm /dev/video0
-            fi
-            sudo mv "$BACKUP" /dev/video0
-            echo "Original default camera restored!"
+            [ -e "$DEFAULT" ] && sudo rm -f "$DEFAULT"
+            sudo mv "$BACKUP" "$DEFAULT"
+            echo "✅ Original default camera restored!"
         else
-            echo "No backup found to restore."
+            echo "⚠️ No backup found to restore."
         fi
         ;;
     2)
